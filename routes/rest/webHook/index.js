@@ -6,9 +6,7 @@ module.exports = {
     try {
       return res.json({
         error: false,
-        path: `${req.protocol}://${req.headers.host}${
-          req.baseUrl
-        }/sethooklog/${cuid.slug()}`
+        path: `${req.protocol}://${req.headers.host}/sethooklog/${cuid.slug()}`
       })
     } catch (err) {
       return res.status(500).json({ error: true, reason: err.message })

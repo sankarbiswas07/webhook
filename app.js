@@ -15,7 +15,10 @@ const webRoutes = require("./routes/web")
 
 const app = express()
 
-if (process.env.NODE_ENV !== undefined && process.env.NODE_ENV !== "development") {
+if (
+  process.env.NODE_ENV !== undefined
+  && process.env.NODE_ENV !== "development"
+) {
   app.use(helmet())
 }
 app.use(cors())
@@ -38,8 +41,8 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "public")))
 
 app.use("/", webRoutes)
-app.use(`/api/v${config.apiVersion}`, restRoutes)
-
+// app.use(`/api/v${config.apiVersion}`, restRoutes)
+app.use(restRoutes)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404))
