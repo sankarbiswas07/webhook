@@ -20,6 +20,7 @@ const users = require("./users")
 router.get("/webhook", webHook.create) // UNAUTHENTICATED
 router.all("/sethooklog/:hookId", webHook.post) // UNAUTHENTICATED
 router.get("/gethooklogs/:hookId", webHook.find) // UNAUTHENTICATED
+router.delete("/gethooklogs/:id", webHook.delete) // UNAUTHENTICATED
 /*
 router.post("/login", login.post) // UNAUTHENTICATED
 router.post("/signup", signup.post) // UNAUTHENTICATED
