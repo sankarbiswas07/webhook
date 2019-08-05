@@ -6,7 +6,8 @@ const cookieParser = require("cookie-parser")
 const logger = require("morgan")
 const cors = require("cors")
 const helmet = require("helmet")
-
+const http = require("http")
+const socket = require("socket.io")
 require("dotenv").config()
 const config = require("./config")[process.env.NODE_ENV || "development"]
 
@@ -68,16 +69,29 @@ const server = http.createServer(app)
 /**
  * Create HTTP server.
  */
-const io = require("socket.io")(server)
-
-io.on("connection", (socket) => {
-  console.log(`a user is connected  ${socket.id}`)
-  // socket.emit("news", { hello: "world" })
-  socket.on("nickNameUpdate", (data) => {
-    // console.log(data.id)
-    socket.nickname = data.id
+const io = socket(server)
+const sockets = {}
+io.on("connection", (client) => {
+  // console.log(`a user is connected  ${client.id}`)
+  client.on("nickNameUpdate", (data) => {
+    client.nickname = data.id // eslint-disable-line
+    sockets[data.id] = client.id
+    setTimeout(() => {
+      io.to(sockets[data.id]).emit("test", { data: "recived2" })
+      console.log(`${client.id} fired!!`)
+    }, 5000)
   })
-  module.exports = { socket }
-})
 
-module.exports = app
+  // disconnect
+  client.on("disconnect", () => {
+    // console.log(`disconnected - ${client.nickname} - ${client.id}`)
+    delete sockets[client.nickname]
+  })
+})
+// Emit Events
+io.eventList = {}
+io.eventList.newRequest = (id, eventName, data) => {
+  io.to(sockets[id]).emit(`${eventName}`, data)
+}
+
+module.exports = { app, server, io }

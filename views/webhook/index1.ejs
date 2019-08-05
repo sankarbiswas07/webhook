@@ -293,13 +293,20 @@
         var socket = io('http://localhost:3000');
         socket.on('connect', () => {
             //get the id from socket
-           // console.log(socket.id);
+           console.log(socket.id);
             var socketId = socket.id;
             socket.emit("nickNameUpdate", {id : `<%= path.split("/")[path.split("/").length - 1] %>` });
+
+            // test
+        socket.on('test', function (data) {
+          console.log(data);
         });
+
         socket.on('newRequest', function (data) {
           fetchReq()
+        })
         });
+        
     </script>
     <script>
       $(document).ready(function() {
