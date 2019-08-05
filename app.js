@@ -60,4 +60,24 @@ app.use((err, req, res, next) => {
   res.render("error")
 })
 
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app)
+/**
+ * Create HTTP server.
+ */
+const io = require("socket.io")(server)
+
+io.on("connection", (socket) => {
+  console.log(`a user is connected  ${socket.id}`)
+  // socket.emit("news", { hello: "world" })
+  socket.on("nickNameUpdate", (data) => {
+    // console.log(data.id)
+    socket.nickname = data.id
+  })
+  module.exports = { socket }
+})
+
 module.exports = app

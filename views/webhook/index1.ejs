@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Bootstrap 4 Dashboard</title>
+    <title>Webhook</title>
     <base target="_self" />
     <meta
       name="description"
@@ -288,7 +288,19 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:3000');
+        socket.on('connect', () => {
+            //get the id from socket
+           // console.log(socket.id);
+            var socketId = socket.id;
+            socket.emit("nickNameUpdate", {id : `<%= path.split("/")[path.split("/").length - 1] %>` });
+        });
+        socket.on('newRequest', function (data) {
+          fetchReq()
+        });
+    </script>
     <script>
       $(document).ready(function() {
         fetchReq();
