@@ -1,6 +1,6 @@
 const cuid = require("cuid")
 const WebHook = require("../../../models/webHook")
-const io = require("../../../app")
+const socketApi = require("../../../socketApi")
 module.exports = {
   async create(req, res) {
     try {
@@ -14,7 +14,7 @@ module.exports = {
   },
   async post(req, res) {
     try {
-      console.log(io)
+      // console.log(socketApi)
       const { hookId } = req.params
       delete req.params.hookId
       await WebHook.create({
@@ -29,7 +29,7 @@ module.exports = {
         query: req.query,
         header: req.headers
       })
-      // socket.to(hookId).emit("newRequest", { hello: "world" })
+      socketApi.newRequest(hookId, "newRequest", { hello: "world" })
       return res.json({ error: false })
     } catch (err) {
       return res.status(500).json({ error: true, reason: err.message })
