@@ -73,33 +73,4 @@ const server = http.createServer(app)
 const { io } = socketApi
 io.attach(server)
 
-/**
- * Create HTTP server.
- */
-/*
-const io = socket(server)
-const sockets = {}
-io.on("connection", (client) => {
-  client.on("nickNameUpdate", (data) => {
-    client.nickname = data.id // eslint-disable-line
-    sockets[data.id] = client.id
-    setTimeout(() => {
-      io.to(sockets[data.id]).emit("test", { data: "recived2" })
-      console.log(`${client.id} fired!!`)
-    }, 5000)
-  })
-  // disconnect
-  client.on("disconnect", () => {
-    delete sockets[client.nickname]
-  })
-})
-
-
-// Emit Events
-io.eventList = {}
-io.eventList.newRequest = (id, eventName, data) => {
-  io.to(sockets[id]).emit(`${eventName}`, data)
-}
-*/
-
 module.exports = { app, server }

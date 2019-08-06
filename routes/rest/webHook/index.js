@@ -29,7 +29,7 @@ module.exports = {
         query: req.query,
         header: req.headers
       })
-      socketApi.newRequest(hookId, "newRequest", { hello: "world" })
+      socketApi.newRequest(hookId, "newRequest", { from: hookId })
       return res.json({ error: false })
     } catch (err) {
       return res.status(500).json({ error: true, reason: err.message })
